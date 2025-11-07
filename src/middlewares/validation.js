@@ -29,3 +29,14 @@ export const validarLogin = [
     body('contraseña').notEmpty().withMessage('La contraseña es requerida'),
     validarCampos
 ];
+
+
+// Validaciones para CRUD de mascotas
+export const validarMascota = [
+    body('nombre').isString().notEmpty().withMessage('El nombre de la mascota es obligatorio'),
+    body('raza').isString().notEmpty().withMessage('La raza es obligatoria'),
+    body('foto_url').optional().isURL().withMessage('La URL de la foto no es válida'),
+    body('estado').optional().isString().withMessage('El estado debe ser texto'),
+    body('contacto').optional().isString().withMessage('El contacto debe ser texto'),
+    validarCampos
+];

@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import userRoutes from './routes/userRoutes.js';
+import petRoutes from './routes/petRoutes.js';
 
 // config
 dotenv.config();
@@ -10,6 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api', userRoutes);
+app.use('/api', petRoutes);
 
 // Middleware global de errores
 app.use((err, req, res, next) => {
