@@ -9,13 +9,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Rutas
-app.get('/', (req, res) => {
-    res.send('Backend de pets funcionando correctamente 🐾');
-});
 app.use('/api', userRoutes);
+
+// Middleware global de errores
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({
+        mensaje: 'Error interno del servidor',
+        error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
