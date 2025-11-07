@@ -40,3 +40,12 @@ export const validarMascota = [
     body('contacto').optional().isString().withMessage('El contacto debe ser texto'),
     validarCampos
 ];
+
+// Validaciones para vacunaciones
+export const validarVacunacion = [
+    body('pet_id').isInt().withMessage('El ID de la mascota es obligatorio y debe ser un número'),
+    body('vacuna').isString().notEmpty().withMessage('El nombre de la vacuna es obligatorio'),
+    body('fecha_aplicacion').isISO8601().withMessage('La fecha de aplicación debe tener formato válido (YYYY-MM-DD)'),
+    body('proxima_dosis').optional().isISO8601().withMessage('La próxima dosis debe tener formato válido (YYYY-MM-DD)'),
+    validarCampos
+];
