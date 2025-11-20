@@ -7,8 +7,10 @@ import {
 } from '../models/petModel.js';
 
 export const registrarMascota = (req, res) => {
-    const { nombre, raza, foto_url, estado, contacto } = req.body;
+    const { nombre, raza, estado, contacto } = req.body;
     const user_id = req.user.id;
+    const foto_url = req.file ? req.file.filename : null;
+
 
     if (!nombre || !raza) {
         return res.status(400).json({ mensaje: 'Nombre y raza son obligatorios' });
@@ -16,7 +18,10 @@ export const registrarMascota = (req, res) => {
 
     crearMascota(nombre, raza, foto_url, estado, contacto, user_id, (err, result) => {
         if (err) return res.status(500).json({ mensaje: 'Error al registrar mascota', error: err });
-        res.status(201).json({ mensaje: 'Mascota registrada correctamente ' });
+        res.status(201).json({
+            mensaje: 'Mascota registrada correctamente ',
+            foto_url: foto_url ? `/uploads/pets/${foto_url}` : null
+        });
     });
 };
 
@@ -41,9 +46,12 @@ export const obtenerMascota = (req, res) => {
 export const editarMascota = (req, res) => {
     const { id } = req.params;
     const user_id = req.user.id;
-    actualizarMascota(id, req.body, user_id, (err, result) => {
+    const foto_url = req.file ? req.file.filename : null;
+    const data = { ...req.body, foto_url: foto_url };
+
+    actualizarMascota(id, data, user_id, (err, result) => {
         if (err) return res.status(500).json({ mensaje: 'Error al actualizar mascota', error: err });
-        res.json({ mensaje: 'Mascota actualizada correctamente 🐕' });
+        res.json({ mensaje: 'Mascota actualizada correctamente' });
     });
 };
 
