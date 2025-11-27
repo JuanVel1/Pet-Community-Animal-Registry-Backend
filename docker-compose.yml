@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  api:
+    build: .
+    container_name: pet_api
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - petnet
+
+  db:
+    image: mysql:8.0
+    container_name: pet_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: pet_registry
+      MYSQL_USER: petuser
+      MYSQL_PASSWORD: petpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysqldata:/var/lib/mysql
+    networks:
+      - petnet
+
+  adminer:
+    image: adminer
+    container_name: pet_adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - petnet
+
+networks:
+  petnet:
+
+volumes:
+  mysqldata:
