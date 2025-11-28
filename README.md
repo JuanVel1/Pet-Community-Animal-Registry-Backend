@@ -82,20 +82,21 @@ Configurar variables de entorno:
 
 Esto levantará:
 
-| Servicio          | Puerto |
-| ----------------- | ------ |
-| Backend (Node.js) | 3000   |
-| MySQL             | 3306   |
+| Servicio                      | (localhost) Puerto |
+| ----------------------------- | ------------------ |
+| Backend (Node.js)             | 3000               |
+| MySQL                         | 3306               |
+| Adminer (ver DB en navegador) | 8080               |
 
-## 2️⃣ Ejecutar MySQL dentro de Docker
+## 2️⃣ Acceder a la base de datos en navegador (Adminer)
 
-<pre class="overflow-visible!" data-start="1934" data-end="1991"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>docker </span><span>exec</span><span> -it pet-mysql mysql -u petuser -p
-</span></span></code></div></div></pre>
+Acceder a localhost:8080
 
-Contraseña:
+- Usuario: petuser
 
-<pre class="overflow-visible!" data-start="2007" data-end="2022"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre!"><span><span>petpass</span><span>
-</span></span></code></div></div></pre>
+- Contraseña:petpass
+
+- base de datos: pet_registry
 
 ## 3️⃣ Exponer backend con Ngrok
 
