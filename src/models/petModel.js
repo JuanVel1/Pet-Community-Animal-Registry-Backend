@@ -18,6 +18,14 @@ export const obtenerMascotasPorUsuario = (user_id, callback) => {
     });
 };
 
+export const obtenerMascotas = (callback) => {
+    const sql = 'SELECT * FROM pets';
+    db.query(sql, (err, result) => {
+        if (err) return callback(err);
+        callback(null, result);
+    });
+};
+
 // Obtener una mascota específica
 export const obtenerMascotaPorId = (id, user_id, callback) => {
     const sql = 'SELECT * FROM pets WHERE id = ? AND user_id = ?';

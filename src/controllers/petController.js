@@ -3,7 +3,8 @@ import {
     obtenerMascotasPorUsuario,
     obtenerMascotaPorId,
     actualizarMascota,
-    eliminarMascota
+    eliminarMascota,
+    obtenerMascotas
 } from '../models/petModel.js';
 
 export const registrarMascota = (req, res) => {
@@ -28,6 +29,14 @@ export const registrarMascota = (req, res) => {
 export const listarMascotas = (req, res) => {
     const user_id = req.user.id;
     obtenerMascotasPorUsuario(user_id, (err, mascotas) => {
+        if (err) return res.status(500).json({ mensaje: 'Error al obtener mascotas', error: err });
+        res.json(mascotas);
+    });
+};
+
+export const listarTodasLasMascotas = (req, res) => {
+    const user_id = req.user.id;
+    obtenerMascotas((err, mascotas) => {
         if (err) return res.status(500).json({ mensaje: 'Error al obtener mascotas', error: err });
         res.json(mascotas);
     });
