@@ -3,7 +3,8 @@ import {
     obtenerMascotasPorUsuario,
     obtenerMascotaPorId,
     actualizarMascota,
-    eliminarMascota
+    eliminarMascota,
+    obtenerMascotas
 } from '../models/petModel.js';
 
 // Helper to map DB pet to Frontend Pet
@@ -57,6 +58,14 @@ export const listarMascotas = (req, res) => {
         // Map all pets to English keys
         const mappedPets = mascotas.map(mapPetToFrontend);
         res.json(mappedPets);
+    });
+};
+
+export const listarTodasLasMascotas = (req, res) => {
+    const user_id = req.user.id;
+    obtenerMascotas((err, mascotas) => {
+        if (err) return res.status(500).json({ mensaje: 'Error al obtener mascotas', error: err });
+        res.json(mascotas);
     });
 };
 

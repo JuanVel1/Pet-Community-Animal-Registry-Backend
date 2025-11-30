@@ -4,7 +4,8 @@ import {
   listarMascotas,
   obtenerMascota,
   editarMascota,
-  borrarMascota
+  borrarMascota,
+  listarTodasLasMascotas
 } from '../controllers/petController.js';
 import { verificarToken } from '../middlewares/authMiddleware.js';
 import { validarMascota } from '../middlewares/validation.js';
@@ -15,6 +16,7 @@ const router = Router();
 // Todas las rutas protegidas por JWT
 router.post('/pets', verificarToken, upload.single('foto_url'), validarMascota, registrarMascota);
 router.get('/pets', verificarToken, listarMascotas);
+router.get('/pets/all', verificarToken, listarTodasLasMascotas);
 router.get('/pets/:id', verificarToken, obtenerMascota);
 router.put('/pets/:id', verificarToken, upload.single('foto_url'), validarMascota, editarMascota);
 router.delete('/pets/:id', verificarToken, borrarMascota);

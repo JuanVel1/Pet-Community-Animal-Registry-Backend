@@ -53,7 +53,7 @@ README.md
 
 ## 1️⃣ Clonar el repositorio
 
-<pre class="overflow-visible!" data-start="1375" data-end="1476"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>git </span><span>clone</span><span> https://github.com/tuusuario/pet-community-backend.git
+<pre class="overflow-visible!" data-start="1375" data-end="1476"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>git </span><span>clone</span><span> https://github.com/JuanVel1/Pet-Community-Animal-Registry-Backend.git
 </span><span>cd</span><span> pet-community-backend
 </span></span></code></div></div></pre>
 
@@ -82,20 +82,19 @@ Configurar variables de entorno:
 
 Esto levantará:
 
-| Servicio          | Puerto |
-| ----------------- | ------ |
-| Backend (Node.js) | 3000   |
-| MySQL             | 3306   |
+| Servicio                      | (localhost) Puerto |
+| ----------------------------- | ------------------ |
+| Backend (Node.js)             | 3000               |
+| MySQL                         | 3306               |
+| Adminer (ver DB en navegador) | 8080               |
 
-## 2️⃣ Ejecutar MySQL dentro de Docker
+## 2️⃣ Acceder a la base de datos en navegador (Adminer)
 
-<pre class="overflow-visible!" data-start="1934" data-end="1991"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>docker </span><span>exec</span><span> -it pet-mysql mysql -u petuser -p
-</span></span></code></div></div></pre>
+Acceder a localhost:8080
 
-Contraseña:
-
-<pre class="overflow-visible!" data-start="2007" data-end="2022"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre!"><span><span>petpass</span><span>
-</span></span></code></div></div></pre>
+- Usuario: petuser
+- Contraseña:petpass
+- base de datos: pet_registry
 
 ## 3️⃣ Exponer backend con Ngrok
 
@@ -241,17 +240,37 @@ Vacunaciones asociadas a una mascota.
 
 ---
 
-# 🖼️ **Acceso a imágenes**
 
-Las fotos de mascotas se sirven de forma pública:
 
-<pre class="overflow-visible!" data-start="3824" data-end="3865"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre!"><span><span>/uploads/pets/<nombre_de_archivo>
-</span></span></code></div></div></pre>
+# 📮 **Colección de Postman**
 
-Ejemplo:
+Para facilitar las pruebas del backend, se ha creado un **workspace público en Postman** que contiene todas las colecciones necesarias para interactuar con los endpoints del sistema:
 
-<pre class="overflow-visible!" data-start="3877" data-end="3976"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre!"><span><span>https:</span><span>/</span><span>/nongutturally-paroxysmal-azzie.ngrok-free.dev/uploads</span><span>/pets/</span><span>1700429051521</span><span>-</span><span>123123</span><span>.jpg
-</span></span></code></div></div></pre>
+* Autenticación (register / login)
+* Gestión de mascotas (CRUD + subida de fotos)
+* Gestión de vacunaciones
+* Rutas protegidas con JWT
+* Ejemplos de peticiones con `form-data`, JSON y archivo
+
+Puedes acceder al workspace público aquí:
+
+👉 **Workspace de Postman – Pet Community**
+
+🔗 [https://www.postman.com/maintenance-candidate-61316570/pet-community/overview](https://www.postman.com/maintenance-candidate-61316570/pet-community/overview)
+
+Dentro encontrarás:
+
+### 🧪 **Colecciones disponibles**
+
+* **Auth** – Registro y login de usuarios
+* **Pets** – CRUD completo de mascotas
+* **Vaccinations** – Gestión de vacunaciones
+
+### ⭐ Recomendaciones
+
+1. Ejecuta primero el endpoint **Login** para obtener el token.
+2. Agrega el token a la seccion de authorization, en la opcion "bearer token".
+3. Para pruebas de subida de imágenes, usa el endpoint `POST /api/pets` con `form-data`.
 
 ---
 
