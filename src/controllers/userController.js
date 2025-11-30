@@ -3,43 +3,76 @@ import jwt from 'jsonwebtoken';
 import { crearUsuario, buscarUsuarioPorCorreo } from '../models/userModel.js';
 
 export const registrarUsuario = (req, res) => {
-    const { nombre, correo, contraseña } = req.body;
+    // Frontend sends English keys
+    const { name, email, password } = req.body;
 
-    if (!nombre || !correo || !contraseña) {
-        return res.status(400).json({ mensaje: 'Faltan campos requeridos' });
+    console.log("Registration request received:", { name, email });
+
+    if (!name || !email || !password) {
+        console.log("Missing fields in registration");
+        return res.status(400).json({ mensaje: 'Missing required fields' });
     }
 
+    // Map to Spanish for DB functions (if needed) or pass directly
+    // userModel functions expect: nombre, correo, password_hash
+    const nombre = name;
+    const correo = email;
+    const contraseña = password;
+
     buscarUsuarioPorCorreo(correo, (err, usuarioExistente) => {
-        if (err) return res.status(500).json({ mensaje: 'Error en la base de datos', error: err });
+        if (err) {
+            console.error("Database error checking user:", err);
+            return res.status(500).json({ mensaje: 'Database error', error: err });
+        }
         if (usuarioExistente) {
-            return res.status(400).json({ mensaje: 'El correo ya está registrado' });
+            console.log("User already exists:", correo);
+            return res.status(400).json({ mensaje: 'Email already registered' });
         }
 
         bcrypt.hash(contraseña, 10, (err, hash) => {
-            if (err) return res.status(500).json({ mensaje: 'Error al encriptar la contraseña' });
+            if (err) {
+                console.error("Bcrypt error:", err);
+                return res.status(500).json({ mensaje: 'Error encrypting password' });
+            }
 
             crearUsuario(nombre, correo, hash, (err, result) => {
-                if (err) return res.status(500).json({ mensaje: 'Error al registrar usuario', error: err });
-                res.status(201).json({ mensaje: 'Usuario registrado correctamente ✅' });
+                if (err) {
+                    console.error("Error creating user:", err);
+                    return res.status(500).json({ mensaje: 'Error registering user', error: err });
+                }
+
+                console.log("User created successfully. Result:", result);
+                const response = {
+                    id: result.insertId,
+                    name: nombre,
+                    email: correo
+                };
+                console.log("Sending response:", response);
+
+                // Return the created user object as expected by frontend
+                res.status(201).json(response);
             });
         });
     });
 };
 
 export const loginUsuario = (req, res) => {
-    const { correo, contraseña } = req.body;
+    const { email, password } = req.body;
 
-    if (!correo || !contraseña) {
-        return res.status(400).json({ mensaje: 'Correo y contraseña son requeridos' });
+    if (!email || !password) {
+        return res.status(400).json({ mensaje: 'Email and password are required' });
     }
 
-    buscarUsuarioPorCorreo(correo, (err, usuario) => {
-        if (err) return res.status(500).json({ mensaje: 'Error en la base de datos', error: err });
-        if (!usuario) return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+    const correo = email;
+    const contraseña = password;
 
-        bcrypt.compare(contraseña, usuario.contraseña_hash, (err, coincide) => {
-            if (err) return res.status(500).json({ mensaje: 'Error al verificar contraseña' });
-            if (!coincide) return res.status(401).json({ mensaje: 'Contraseña incorrecta' });
+    buscarUsuarioPorCorreo(correo, (err, usuario) => {
+        if (err) return res.status(500).json({ mensaje: 'Database error', error: err });
+        if (!usuario) return res.status(404).json({ mensaje: 'User not found' });
+
+        bcrypt.compare(contraseña, usuario.password_hash, (err, coincide) => {
+            if (err) return res.status(500).json({ mensaje: 'Error verifying password' });
+            if (!coincide) return res.status(401).json({ mensaje: 'Incorrect password' });
 
             const token = jwt.sign(
                 { id: usuario.id, correo: usuario.correo },
@@ -48,12 +81,12 @@ export const loginUsuario = (req, res) => {
             );
 
             res.json({
-                mensaje: 'Inicio de sesión exitoso',
+                mensaje: 'Login successful',
                 token,
-                usuario: {
+                user: { // Changed from 'usuario' to 'user'
                     id: usuario.id,
-                    nombre: usuario.nombre,
-                    correo: usuario.correo
+                    name: usuario.nombre, // Mapped from 'nombre' to 'name'
+                    email: usuario.correo // Mapped from 'correo' to 'email'
                 }
             });
         });

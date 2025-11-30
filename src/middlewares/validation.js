@@ -17,35 +17,35 @@ export const validarCampos = (req, res, next) => {
 
 // Validaciones para registro
 export const validarRegistro = [
-    body('nombre').isString().notEmpty().withMessage('El nombre es requerido'),
-    body('correo').isEmail().withMessage('El correo debe tener formato válido'),
-    body('contraseña').isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres'),
+    body('name').isString().notEmpty().withMessage('Name is required'),
+    body('email').isEmail().withMessage('Invalid email format'),
+    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
     validarCampos
 ];
 
 // Validaciones para login
 export const validarLogin = [
-    body('correo').isEmail().withMessage('El correo debe tener formato válido'),
-    body('contraseña').notEmpty().withMessage('La contraseña es requerida'),
+    body('email').isEmail().withMessage('Invalid email format'),
+    body('password').notEmpty().withMessage('Password is required'),
     validarCampos
 ];
 
 
 // Validaciones para CRUD de mascotas
 export const validarMascota = [
-    body('nombre').isString().notEmpty().withMessage('El nombre de la mascota es obligatorio'),
-    body('raza').isString().notEmpty().withMessage('La raza es obligatoria'),
-    body('foto_url').optional().isURL().withMessage('La URL de la foto no es válida'),
-    body('estado').optional().isString().withMessage('El estado debe ser texto'),
-    body('contacto').optional().isString().withMessage('El contacto debe ser texto'),
+    body('name').isString().notEmpty().withMessage('Name is required'),
+    body('breed').isString().notEmpty().withMessage('Breed is required'),
+    body('photoUrl').optional().isURL().withMessage('Invalid photo URL'),
+    body('status').optional().isString().withMessage('Status must be text'),
+    body('contact').optional().isString().withMessage('Contact must be text'),
     validarCampos
 ];
 
 // Validaciones para vacunaciones
 export const validarVacunacion = [
-    body('pet_id').isInt().withMessage('El ID de la mascota es obligatorio y debe ser un número'),
-    body('vacuna').isString().notEmpty().withMessage('El nombre de la vacuna es obligatorio'),
-    body('fecha_aplicacion').isISO8601().withMessage('La fecha de aplicación debe tener formato válido (YYYY-MM-DD)'),
-    body('proxima_dosis').optional().isISO8601().withMessage('La próxima dosis debe tener formato válido (YYYY-MM-DD)'),
+    body('pet_id').isInt().withMessage('Pet ID is required and must be a number'),
+    body('vacuna').isString().notEmpty().withMessage('Vaccine name is required'),
+    body('fecha_aplicacion').isISO8601().withMessage('Application date must be valid (YYYY-MM-DD)'),
+    body('proxima_dosis').optional().isISO8601().withMessage('Next dose date must be valid (YYYY-MM-DD)'),
     validarCampos
 ];
