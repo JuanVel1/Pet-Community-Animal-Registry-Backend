@@ -35,7 +35,7 @@ export const validarLogin = [
 export const validarMascota = [
     body('name').isString().notEmpty().withMessage('Name is required'),
     body('breed').isString().notEmpty().withMessage('Breed is required'),
-    body('photoUrl').optional().isURL().withMessage('Invalid photo URL'),
+    body('photoUrl').optional().isString().withMessage('Photo URL must be text'),
     body('status').optional().isString().withMessage('Status must be text'),
     body('contact').optional().isString().withMessage('Contact must be text'),
     validarCampos
